@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
-[Route("api/tasks")]
+[Route("api/[controller]")]
 public class TaskController : ControllerBase
 {
 
@@ -17,7 +17,7 @@ public class TaskController : ControllerBase
     public async Task<IActionResult> GetAllAsync() => Ok(await _taskService.GetAllAsync());
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetByIdAsync(Guid id)
+    public async Task<IActionResult> GetTaskById(Guid id)
     {
         var task = await _taskService.GetByIdAsync(id);
 
@@ -29,11 +29,12 @@ public class TaskController : ControllerBase
 
     [HttpPost]
 
-    public async Task<IActionResult> CreateTask(AddTaskRequest request)
+    public async Task<IActionResult> AddAsync([FromBody] AddTaskRequest request)
     {
-        var task = await _taskService.AddAsync(request);
+        var task = new TodoTask(request.taskName, request.status);
+        await _taskService.AddAsync(task);
 
-        return CreatedAtAction(nameof(GetByIdAsync), new { id = task.Id }, task);
+        return CreatedAtAction(nameof(GetTaskById), new { id = task.Id }, task);
     }
 
     [HttpDelete("{id}")]

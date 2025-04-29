@@ -1,8 +1,8 @@
 public class TaskService : ITaskService
 {
-    private readonly UnitOfWork _unitOfWork;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public TaskService(UnitOfWork unitOfWork)
+    public TaskService(IUnitOfWork unitOfWork)
     {
         _unitOfWork = unitOfWork;
     }
@@ -17,15 +17,14 @@ public class TaskService : ITaskService
         return _unitOfWork.TaskRepository.GetByIdAsync(id);
     }
 
-    public async Task<TodoTask> AddAsync(AddTaskRequest request)
+    public async Task AddAsync(TodoTask task)
     {
-        var task = new TodoTask(request.taskName, request.status);
 
         await _unitOfWork.TaskRepository.AddAsync(task);
 
         await _unitOfWork.CommitAsync();
 
-        return task;
+        
     }
 
     public async Task DeleteAsync(Guid id)

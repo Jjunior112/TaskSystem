@@ -1,6 +1,6 @@
-public interface IUnitOfWork : IDisposable
+public interface IUnitOfWork 
 {
-    ITaskRepository TaskRepository { get; }
+    IRepository TaskRepository { get; }
 
     Task<int> CommitAsync();
 }

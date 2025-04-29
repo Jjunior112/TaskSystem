@@ -2,9 +2,9 @@ public class UnitOfWork : IUnitOfWork
 {
     private readonly TaskDbContext _context;
 
-    public ITaskRepository TaskRepository { get; }
+    public IRepository TaskRepository { get; }
 
-    public UnitOfWork(TaskDbContext context, ITaskRepository taskRepository)
+    public UnitOfWork(TaskDbContext context, IRepository taskRepository)
     {
         _context = context;
         TaskRepository = taskRepository;
@@ -15,8 +15,5 @@ public class UnitOfWork : IUnitOfWork
         return await _context.SaveChangesAsync();
     }
 
-    public void Dispose()
-    {
-        _context.Dispose();
-    }
+    
 }

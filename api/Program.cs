@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,7 +23,14 @@ builder.Services.AddDbContext<TaskDbContext>(options =>
 
 });
 
+
 //Repositorio e services
+
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+    });
 
 
 builder.Services.AddScoped<IRepository, TaskRepository>();
@@ -30,6 +38,8 @@ builder.Services.AddScoped<IRepository, TaskRepository>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 builder.Services.AddScoped<TaskService>();
+
+
 
 
 var app = builder.Build();

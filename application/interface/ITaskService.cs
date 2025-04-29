@@ -4,7 +4,7 @@ public interface ITaskService
 
     Task<TodoTask?> GetByIdAsync(Guid id);
 
-    Task<TodoTask> AddAsync(AddTaskRequest request);
+    Task AddAsync(TodoTask task);
 
     Task DeleteAsync(Guid id);
 
