@@ -1,0 +1,1 @@
+public record AddTaskRequest(string taskName, TaskStatus status);
