@@ -1,0 +1,1 @@
+public record UpdateTaskRequest (TaskStatus status);

@@ -24,7 +24,25 @@ public class TaskService : ITaskService
 
         await _unitOfWork.CommitAsync();
 
-        
+
+    }
+
+    public async Task UpdateTask(Guid id, UpdateTaskRequest request)
+    {
+
+        var task = await _unitOfWork.TaskRepository.GetByIdAsync(id);
+
+        if (task != null)
+        {
+            task.Status = request.status;
+            
+            await _unitOfWork.TaskRepository.UpdateTask(task);
+
+            await _unitOfWork.CommitAsync();
+        }
+
+
+
     }
 
     public async Task DeleteAsync(Guid id)
