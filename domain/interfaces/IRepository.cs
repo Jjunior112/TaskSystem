@@ -6,6 +6,8 @@ public interface IRepository
 
     Task AddAsync(TodoTask task);
 
+    Task UpdateTask (TodoTask task);
+
 
     Task DeleteAsync(TodoTask task);
 

@@ -17,6 +17,12 @@ public class TaskRepository : IRepository
         await _context.Tasks.AddAsync(entity);
     }
 
+    public Task UpdateTask(TodoTask task)
+    {
+         _context.Tasks.Update(task);
+
+         return Task.CompletedTask;
+    }
     public Task DeleteAsync(TodoTask task)
     {
         _context.Tasks.Remove(task);

@@ -37,6 +37,24 @@ public class TaskController : ControllerBase
         return CreatedAtAction(nameof(GetTaskById), new { id = task.Id }, task);
     }
 
+    [HttpPut("{id}")]
+
+    public async Task<IActionResult> UpdateTask(Guid id, [FromBody] UpdateTaskRequest request)
+    {
+
+        var task = await _taskService.GetByIdAsync(id);
+
+
+        if(task!= null)
+        {
+            await _taskService.UpdateTask(task.Id,request);
+
+            return Ok($"Task {task.TaskName} update!");
+        }
+
+        return NotFound();
+    }
+
     [HttpDelete("{id}")]
 
     public async Task<IActionResult> DeleteAsync(Guid id)
