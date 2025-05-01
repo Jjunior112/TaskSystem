@@ -32,9 +32,17 @@ public class TaskController : ControllerBase
     public async Task<IActionResult> AddAsync([FromBody] AddTaskRequest request)
     {
         var task = new TodoTask(request.taskName, request.status);
-        await _taskService.AddAsync(task);
+        var checkTask = await _taskService.AddAsync(task);
 
-        return CreatedAtAction(nameof(GetTaskById), new { id = task.Id }, task);
+        if(checkTask!=null)
+        {
+            return CreatedAtAction(nameof(GetTaskById), new { id = task.Id }, task);
+        }
+        else{
+            return BadRequest("Task already exists!");
+        }
+
+        
     }
 
     [HttpPut("{id}")]

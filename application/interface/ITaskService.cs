@@ -6,7 +6,7 @@ public interface ITaskService
 
     Task<TodoTask?> GetByIdAsync(Guid id);
 
-    Task AddAsync(TodoTask task);
+    Task<TodoTask> AddAsync(TodoTask task);
 
     Task UpdateTask(Guid id, [FromBody] UpdateTaskRequest request);
 

@@ -1,3 +1,6 @@
+using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.EntityFrameworkCore.Diagnostics;
+
 public class TaskService : ITaskService
 {
     private readonly IUnitOfWork _unitOfWork;
@@ -17,12 +20,33 @@ public class TaskService : ITaskService
         return _unitOfWork.TaskRepository.GetByIdAsync(id);
     }
 
-    public async Task AddAsync(TodoTask task)
+
+    public async Task<TodoTask?> AddAsync(TodoTask task)
     {
+        var checkTask = await _unitOfWork.TaskRepository.CheckTask(task.TaskName);
 
-        await _unitOfWork.TaskRepository.AddAsync(task);
+        if (!checkTask)
+        {
+            try
+            {
+                await _unitOfWork.TaskRepository.AddAsync(task);
 
-        await _unitOfWork.CommitAsync();
+                await _unitOfWork.CommitAsync();
+
+                return task;
+            }
+            catch (Exception)
+            {
+
+
+                throw;
+            }
+
+        }
+        else
+        {
+            return null;
+        }
 
 
     }
@@ -35,7 +59,7 @@ public class TaskService : ITaskService
         if (task != null)
         {
             task.Status = request.status;
-            
+
             await _unitOfWork.TaskRepository.UpdateTask(task);
 
             await _unitOfWork.CommitAsync();

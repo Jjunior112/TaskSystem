@@ -4,6 +4,8 @@ public interface IRepository
 
     Task<TodoTask?> GetByIdAsync(Guid Id);
 
+    Task<bool> CheckTask(string taskName);
+
     Task AddAsync(TodoTask task);
 
     Task UpdateTask (TodoTask task);
