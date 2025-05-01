@@ -60,6 +60,15 @@ public class TaskService : ITaskService
         {
             task.Status = request.status;
 
+            if (task.Status != TaskStatus.Completed)
+            {
+                task.CompletedAt = null;
+            }
+            else
+            {
+                task.CompletedAt = DateTime.Now;
+            }
+
             await _unitOfWork.TaskRepository.UpdateTask(task);
 
             await _unitOfWork.CommitAsync();
